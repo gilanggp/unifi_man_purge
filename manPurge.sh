@@ -11,25 +11,40 @@ cd $DIR
 echo ""
 #ls -l
 
-# Check if the directory variable is set
+# Cek variabel directory tidak kosong
 if [ -z "$DIR" ]; then
-  echo "The variable DIR is not set. Please set DIR to the target directory."
+  echo "directory kosong, tolong masukan directory."
   exit 1
 fi
 
-# Check if the directory exists
+# Cek directory ada
 if [ ! -d "$DIR" ]; then
-  echo "The directory $DIR does not exist."
+  echo "directory $DIR tidak ada."
   exit 1
 fi
 
-# Find the three oldest files or directories inside $DIR
+# cari directory ter lama
 oldest=$(find "$DIR" -type f -printf '%T+ %p\n' -o -type d -printf '%T+ %p\n' | sort | head -n 3)
 
-# Check if any file or directory was found
+# Cek file atau directory ada
 if [ -z "$oldest" ]; then
   echo "No files or directories found inside $DIR."
 else
   echo "The three oldest files or directories inside $DIR are:"
-  echo "$oldest" | awk '{print $2}'
+  echo "$oldest" 
+fi
+
+#prompt penghapusan
+echo ""
+echo -n "deleting oldest file ? Y\n "
+read OP
+
+if [ -z "$OP" ]; then
+  echo "comand tidak ada...!"
+  exit 1
+elif [ $OP = "Y","y" ]; then
+  rm -Rv "oldest" | awk 'print $2'
+  echo "deleted...!"
+else
+  echo "exiting..."
 fi
