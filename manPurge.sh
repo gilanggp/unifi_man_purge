@@ -42,7 +42,7 @@ read OP
 if [ -z "$OP" ]; then
   echo "comand tidak ada...!"
   exit 1
-elif [ $OP = "Y","y" ]; then
+elif [ $OP = "Y" ]; then
   rm -Rv "oldest" | awk 'print $2'
   echo "deleted...!"
 else
