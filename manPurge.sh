@@ -24,7 +24,7 @@ if [ ! -d "$DIR" ]; then
 fi
 
 # cari directory ter lama
-oldest=$(find "$DIR" -type f -printf '%T+ %p\n' -o -type d -printf '%T+ %p\n' | sort | head -n 3)
+oldest=$(find "$DIR" -mindepth 3 -maxdepth 3 -type d -printf '%T+ %p\n' | sort -T /srv/tmp | head -n 3)
 
 # Cek file atau directory ada
 if [ -z "$oldest" ]; then
@@ -35,16 +35,21 @@ else
 fi
 
 #prompt penghapusan
-echo ""
-echo -n "deleting oldest file ? Y\n "
-read OP
+  echo ""
+  echo -n "deleting oldest file ? Y\n "
+  read OP
 
-if [ -z "$OP" ]; then
-  echo "comand tidak ada...!"
-  exit 1
-elif [ $OP = "Y" ]; then
-  rm -Rv "oldest" | awk 'print $2'
-  echo "deleted...!"
-else
-  echo "exiting..."
-fi
+  if [ -z "$OP" ]; then
+    echo "command tidak ada...!"
+    exit 1
+  elif [ "$OP" = "Y" ]; then
+    echo "$oldest" | awk '{print $2}' | xargs rm -rv
+    echo "deleted...!"
+  else
+    echo "exiting..."
+	exit 1
+  fi
+
+echo ""
+
+done
