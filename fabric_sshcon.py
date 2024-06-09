@@ -15,9 +15,9 @@ print ("Uploaded {0.local} to {0.remote}".format(trans))
 
 command = "sh /bin/manPurge.sh"					#running the bash script in remote host
 
-#result = client.run(command, pty=True, watchers=[sudoers,yp])	#incase u need sudo level
+result = client.run(command, pty=True, watchers=[sudoers,yp])	#incase u need sudo level
 
-result = client.run(command, pty=True)
+#result = client.run(command, pty=True)
 
 print ("Ran {0.command!r} on {0.connection.host}, got stdout:\n{0.stdout}".format(result)) 
 
